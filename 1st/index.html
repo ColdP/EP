@@ -8,176 +8,223 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Inter and Noto Sans SC -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Noto+Sans+SC:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
-        /* 基本字体设置 */
+        /* 基本样式和字体设置 */
         body {
             font-family: 'Inter', 'Noto Sans SC', sans-serif;
-            background-color: #f8fafc; /* 浅色背景 */
-            color: #1a202c; /* 主要文字颜色 */
+            background-color: #f8f9fa; /* 浅色背景 */
+            color: #1a202c; /* 深色文字 */
         }
 
-        /* 统一的 Section 标题样式 */
+        /* 强制使用无圆角设计 */
+        * {
+            border-radius: 0 !important;
+        }
+
+        /* 标题字体 */
         .section-title {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', 'Google Sans', sans-serif;
             font-weight: 900;
-            font-size: 2.25rem; /* 36px */
             letter-spacing: 0.05em;
-            color: #1f2937; /* 深灰色 */
-            margin-bottom: 2rem;
-            text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        /* 漫画风格边框 */
+        .comic-border {
+            border: 2px solid #1a202c;
         }
 
-        /* 滚动动画的初始状态 */
+        /* 动画效果：元素默认状态 */
         .scroll-animate {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-            transition-delay: 0.2s;
+            transition: opacity 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        /* 元素进入视口后的可见状态 */
-        .is-visible {
+        /* 动画效果：元素进入视窗后的状态 */
+        .scroll-animate.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* 漫画风格的边框 */
-        .manga-border {
-            border: 2px solid #1f2937;
-        }
-
-        /* 自定义按钮样式，低饱和度蓝色 */
-        .btn-theme {
-            background-color: #60a5fa; /* 柔和的蓝色 */
+        /* 按钮样式 */
+        .theme-button {
+            background-color: #3b82f6; /* 主题蓝色 */
             color: white;
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            padding: 10px 20px;
+            text-align: center;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: 2px solid #1a202c;
+            font-weight: bold;
+            box-shadow: 4px 4px 0px #1a202c; /* 漫画风格阴影 */
         }
 
-        .btn-theme:hover {
-            background-color: #3b82f6; /* 悬停时更深的蓝色 */
-            transform: translateY(-2px);
+        .theme-button:hover {
+            background-color: #2563eb; /* 悬停时颜色加深 */
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #1a202c;
+        }
+        
+        .theme-button.disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+            box-shadow: 4px 4px 0px #6b7280;
+        }
+        .theme-button.disabled:hover {
+            background-color: #9ca3af;
+            transform: none;
+            box-shadow: 4px 4px 0px #6b7280;
+        }
+
+        /* 卡片悬停效果 */
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
     </style>
 </head>
-<body class="bg-slate-50">
+<body class="bg-slate-100">
 
     <!-- 1. 封面 + 大标题 -->
-    <header class="h-screen w-full bg-white flex flex-col items-center justify-center p-4">
-        <div class="text-center scroll-animate">
-            <img src="EoLS_Cover.png" alt="夏末回音 EP 封面" class="w-64 h-64 md:w-80 md:h-80 object-cover manga-border shadow-2xl mx-auto">
-            <img src="EoLS_Logo.png" alt="夏末回音 Logo" class="mt-8 w-72 md:w-96 mx-auto">
+    <header class="bg-white w-full min-h-screen flex flex-col items-center justify-center p-8 scroll-animate">
+        <div class="text-center">
+            <img src="EoLS_Cover.png" alt="夏末回音 EP 封面" class="w-full max-w-sm md:max-w-md mx-auto comic-border shadow-xl">
+            <img src="EoLS_Logo.png" alt="夏末回音 Logo" class="w-full max-w-md md:max-w-lg mx-auto mt-8">
         </div>
     </header>
 
-    <main class="py-16 px-4 md:px-8">
+    <main class="container mx-auto px-4 md:px-8 py-16 space-y-24">
 
         <!-- 2. EDITIONS -->
-        <section class="max-w-4xl mx-auto mb-24">
-            <h2 class="section-title">EDITIONS</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 scroll-animate">
+        <section class="scroll-animate">
+            <h2 class="section-title text-4xl md:text-5xl text-center mb-12">EDITIONS</h2>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                 <!-- 数字版 -->
-                <div class="bg-white p-8 manga-border text-center flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-bold text-2xl mb-2 text-gray-800">数字版</h3>
-                        <p class="text-gray-600 mb-6">Hi-Res Audio / 免费公开</p>
+                <div class="bg-white p-8 comic-border flex flex-col">
+                    <h3 class="text-2xl font-bold mb-4">数字版</h3>
+                    <p class="text-slate-600 mb-2">Hi-Res Audio</p>
+                    <p class="text-slate-600 mb-6 font-bold">免费公开</p>
+                    <div class="mt-auto">
+                        <a href="http://links.0m-p.space/ReWind" target="_blank" class="theme-button block">获取</a>
                     </div>
-                    <a href="http://links.0m-p.space/ReWind" target="_blank" rel="noopener noreferrer" class="btn-theme font-bold py-3 px-6 manga-border text-lg block">获取</a>
                 </div>
                 <!-- 实体版 -->
-                <div class="bg-white p-8 manga-border text-center flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-bold text-2xl mb-2 text-gray-800">实体版</h3>
-                        <p class="text-gray-600 mb-6">1 CD / 39 RMB (不包含邮费)</p>
+                <div class="bg-white p-8 comic-border flex flex-col">
+                    <h3 class="text-2xl font-bold mb-4">实体版</h3>
+                    <p class="text-slate-600 mb-2">1 CD</p>
+                    <p class="text-slate-600 mb-6 font-bold">39 RMB <span class="text-sm">(不包含邮费)</span></p>
+                    <div class="mt-auto">
+                        <a href="http://links.0m-p.space/ReWind_CD" target="_blank" class="theme-button block">购买</a>
                     </div>
-                    <a href="http://links.0m-p.space/ReWind_CD" target="_blank" rel="noopener noreferrer" class="btn-theme font-bold py-3 px-6 manga-border text-lg block">购买</a>
                 </div>
             </div>
         </section>
 
         <!-- 3. TRACK LIST -->
-        <section class="max-w-4xl mx-auto mb-24">
-            <h2 class="section-title">TRACK LIST</h2>
-            <div class="bg-white p-8 md:p-12 manga-border scroll-animate">
-                <ol class="list-decimal list-inside space-y-6 text-gray-700">
-                    <li><strong class="text-gray-900">Memories Here</strong><br><span class="text-sm">Music & Arrangement : 0M_P</span></li>
-                    <li><strong class="text-gray-900">Summer is Coming</strong><br><span class="text-sm">Lyrics, Music & Arrangement : 0M_P, Vocal : 初音ミク</span></li>
-                    <li><strong class="text-gray-900">After Dream</strong><br><span class="text-sm">Lyrics, Music & Arrangement : 0M_P, Vocal : 初音ミク</span></li>
-                    <li><strong class="text-gray-900">inner</strong><br><span class="text-sm">Lyrics, Music & Arrangement : 0M_P, Synthesizer Arrangement : HoT, Vocal : 初音ミク</span></li>
-                    <li><strong class="text-gray-900">Back to Summer</strong><br><span class="text-sm">Lyrics, Music & Arrangement : 0M_P, Vocal : 初音ミク</span></li>
-                    <li><strong class="text-gray-900">After Dream - Life Remix</strong><br><span class="text-sm">Lyrics, Music & Remix : 0M_P, Vocal : 初音ミク</span></li>
-                    <li><strong class="text-gray-900">You Need - Reloaded</strong><br><span class="text-sm">Lyrics, Music & Arrangement : 0M_P, Vocal : 初音ミク</span></li>
-                    <li><strong class="text-gray-900">Always Your Birthday</strong><br><span class="text-sm">Lyrics, Music & Arrangement : 0M_P, Synthesizer Arrangement : HoT, Vocal : 初音ミク</span></li>
+        <section class="scroll-animate">
+            <h2 class="section-title text-4xl md:text-5xl text-center mb-12">TRACK LIST</h2>
+            <div class="max-w-4xl mx-auto bg-white p-8 md:p-12 comic-border">
+                <ol class="space-y-6">
+                    <li class="border-b-2 border-dashed border-slate-300 pb-4">
+                        <p class="font-bold text-lg">01. Memories Here</p>
+                        <p class="text-sm text-slate-500">Music & Arrangement : 0M_P</p>
+                    </li>
+                    <li class="border-b-2 border-dashed border-slate-300 pb-4">
+                        <p class="font-bold text-lg">02. Summer is Coming</p>
+                        <p class="text-sm text-slate-500">Lyrics, Music & Arrangement : 0M_P, Vocal : 初音ミク</p>
+                    </li>
+                    <li class="border-b-2 border-dashed border-slate-300 pb-4">
+                        <p class="font-bold text-lg">03. After Dream</p>
+                        <p class="text-sm text-slate-500">Lyrics, Music & Arrangement : 0M_P, Vocal : 初音ミク</p>
+                    </li>
+                    <li class="border-b-2 border-dashed border-slate-300 pb-4">
+                        <p class="font-bold text-lg">04. inner</p>
+                        <p class="text-sm text-slate-500">Lyrics, Music & Arrangement : 0M_P, Synthesizer Arrangement : HoT, Vocal : 初音ミク</p>
+                    </li>
+                    <li class="border-b-2 border-dashed border-slate-300 pb-4">
+                        <p class="font-bold text-lg">05. Back to Summer</p>
+                        <p class="text-sm text-slate-500">Lyrics, Music & Arrangement : 0M_P, Vocal : 初音ミク</p>
+                    </li>
+                    <li class="border-b-2 border-dashed border-slate-300 pb-4">
+                        <p class="font-bold text-lg">06. After Dream - Life Remix</p>
+                        <p class="text-sm text-slate-500">Lyrics, Music & Remix : 0M_P, Vocal : 初音ミク</p>
+                    </li>
+                    <li class="border-b-2 border-dashed border-slate-300 pb-4">
+                        <p class="font-bold text-lg">07. You Need - Reloaded</p>
+                        <p class="text-sm text-slate-500">Lyrics, Music & Arrangement : 0M_P, Vocal : 初音ミク</p>
+                    </li>
+                    <li>
+                        <p class="font-bold text-lg">08. Always Your Birthday</p>
+                        <p class="text-sm text-slate-500">Lyrics, Music & Arrangement : 0M_P, Synthesizer Arrangement : HoT, Vocal : 初音ミク</p>
+                    </li>
                 </ol>
             </div>
         </section>
 
         <!-- 4. MOVIES -->
-        <section class="max-w-5xl mx-auto mb-24">
-            <h2 class="section-title">MOVIES</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 scroll-animate">
-                <a href="https://www.bilibili.com/video/BV1u1fvYKETw/" target="_blank" rel="noopener noreferrer" class="group block manga-border bg-white overflow-hidden">
-                    <img src="AfterDream_MVCover.jpg" alt="After Dream Movie Cover" class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105">
-                    <p class="p-4 font-bold text-center text-gray-800">After Dream</p>
+        <section class="scroll-animate">
+            <h2 class="section-title text-4xl md:text-5xl text-center mb-12">MOVIES</h2>
+            <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <a href="https://www.bilibili.com/video/BV1u1fvYKETw/" target="_blank" class="block bg-white comic-border card-hover">
+                    <img src="AfterDream_MVCover.jpg" alt="After Dream MV 封面" class="w-full h-auto comic-border border-b-2">
+                    <p class="font-bold text-center p-4">After Dream</p>
                 </a>
-                <div class="group manga-border bg-white overflow-hidden opacity-70">
-                    <img src="EoLS_XFD.png" alt="CrossFade Video Cover" class="w-full h-auto object-cover">
-                    <p class="p-4 font-bold text-center text-gray-500">CrossFade Video (Coming Soon)</p>
+                <div class="bg-white comic-border">
+                    <img src="EoLS_XFD.png" alt="CrossFade Video 封面" class="w-full h-auto comic-border border-b-2 opacity-60">
+                    <p class="font-bold text-center p-4 text-slate-500">CrossFade Video (Coming Soon)</p>
                 </div>
             </div>
         </section>
 
         <!-- 5. STREAMING -->
-        <section class="max-w-5xl mx-auto mb-24">
-            <h2 class="section-title">STREAMING</h2>
-            <div class="scroll-animate">
-                <h3 class="text-xl font-bold text-center mb-6 text-gray-700">Singles</h3>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-                    <a href="https://links.0m-p.space/AfterDream/" target="_blank" rel="noopener noreferrer" class="group block manga-border bg-white text-center">
-                        <img src="AD.png" alt="After Dream Single Cover" class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105">
-                        <p class="p-4 font-bold text-gray-800">After Dream</p>
+        <section class="scroll-animate">
+            <h2 class="section-title text-4xl md:text-5xl text-center mb-12">STREAMING</h2>
+            <div class="max-w-5xl mx-auto">
+                <h3 class="text-2xl font-bold mb-6 text-center">Singles</h3>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                    <a href="https://links.0m-p.space/AfterDream/" target="_blank" class="block bg-white comic-border card-hover">
+                        <img src="AD.png" alt="After Dream 单曲封面" class="w-full h-auto aspect-square object-cover comic-border border-b-2">
+                        <p class="font-bold text-center p-4">After Dream</p>
                     </a>
-                    <a href="https://linkco.re/XThrYXSs" target="_blank" rel="noopener noreferrer" class="group block manga-border bg-white text-center">
-                        <img src="inner_Cover.png" alt="inner Single Cover" class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105">
-                        <p class="p-4 font-bold text-gray-800">inner</p>
+                    <a href="https://linkco.re/XThrYXSs" target="_blank" class="block bg-white comic-border card-hover">
+                        <img src="inner_Cover.png" alt="inner 单曲封面" class="w-full h-auto aspect-square object-cover comic-border border-b-2">
+                        <p class="font-bold text-center p-4">inner</p>
                     </a>
-                    <a href="https://linkco.re/gHE8PnXa" target="_blank" rel="noopener noreferrer" class="group block manga-border bg-white text-center">
-                        <img src="YNR.jpg" alt="You Need - Reloaded Single Cover" class="w-full h-auto object-cover transition-transform duration-300 group-hover:scale-105">
-                        <p class="p-4 font-bold text-gray-800">You Need - Reloaded</p>
+                    <a href="https://linkco.re/gHE8PnXa" target="_blank" class="block bg-white comic-border card-hover">
+                        <img src="YNR.jpg" alt="You Need - Reloaded 单曲封面" class="w-full h-auto aspect-square object-cover comic-border border-b-2">
+                        <p class="font-bold text-center p-4">You Need - Reloaded</p>
                     </a>
                 </div>
-                <h3 class="text-xl font-bold text-center mb-6 text-gray-700">EP</h3>
-                <div class="flex justify-center">
-                    <div class="group manga-border bg-white text-center opacity-70 w-full max-w-xs">
-                        <img src="EoLS_Cover.png" alt="EP Cover" class="w-full h-auto object-cover">
-                        <p class="p-4 font-bold text-gray-500">夏末回音 (Coming Soon)</p>
-                    </div>
+                <h3 class="text-2xl font-bold mb-6 text-center">EP</h3>
+                <div class="max-w-sm mx-auto bg-white comic-border">
+                     <img src="EoLS_Cover.png" alt="EP 封面" class="w-full h-auto aspect-square object-cover comic-border border-b-2 opacity-60">
+                     <p class="font-bold text-center p-4 text-slate-500">Coming Soon</p>
                 </div>
             </div>
         </section>
-
+        
         <!-- 6. ABOUT -->
-        <section class="max-w-4xl mx-auto mb-16">
-            <h2 class="section-title">ABOUT</h2>
-            <div class="bg-white p-8 manga-border flex flex-col md:flex-row items-center gap-8 scroll-animate">
-                <img src="avatar.png" alt="0M_P Avatar" class="w-32 h-32 manga-border flex-shrink-0">
-                <div class="w-full text-center md:text-left">
-                    <h3 class="text-3xl font-black text-gray-900">0M_P</h3>
-                    <p class="text-gray-600 mt-1 mb-4">VOCALOID Producer since 2017</p>
-                    <div class="flex flex-wrap justify-center md:justify-start gap-3">
-                        <a href="https://links.0m-p.space/" target="_blank" rel="noopener noreferrer" class="btn-theme py-2 px-4 text-sm font-bold manga-border">Links</a>
-                        <a href="https://space.bilibili.com/168264291" target="_blank" rel="noopener noreferrer" class="btn-theme py-2 px-4 text-sm font-bold manga-border">bilibili</a>
-                        <a href="https://www.tunecore.co.jp/artists/0M_P" target="_blank" rel="noopener noreferrer" class="btn-theme py-2 px-4 text-sm font-bold manga-border">TuneCore</a>
-                        <a href="https://music.apple.com/jp/artist/1699342983" target="_blank" rel="noopener noreferrer" class="btn-theme py-2 px-4 text-sm font-bold manga-border">Apple Music</a>
-                        <a href="https://open.spotify.com/artist/2xPheCv27oLtbyjb7TsXd0" target="_blank" rel="noopener noreferrer" class="btn-theme py-2 px-4 text-sm font-bold manga-border">Spotify</a>
-                        <a href="http://music.163.com/artist?id=36284273" target="_blank" rel="noopener noreferrer" class="btn-theme py-2 px-4 text-sm font-bold manga-border">网易云音乐</a>
+        <section class="scroll-animate">
+            <h2 class="section-title text-4xl md:text-5xl text-center mb-12">ABOUT</h2>
+            <div class="max-w-4xl mx-auto bg-white p-8 comic-border flex flex-col md:flex-row items-center gap-8">
+                <img src="avatar.png" alt="0M_P 头像" class="w-32 h-32 comic-border flex-shrink-0">
+                <div class="w-full">
+                    <h3 class="text-2xl font-bold">0M_P</h3>
+                    <p class="text-slate-600 mb-4">VOCALOID Producer since 2017</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-blue-600 font-bold">
+                        <a href="https://links.0m-p.space/" target="_blank" class="hover:underline">Links</a>
+                        <a href="https://space.bilibili.com/168264291" target="_blank" class="hover:underline">bilibili</a>
+                        <a href="https://www.tunecore.co.jp/artists/0M_P" target="_blank" class="hover:underline">TuneCore Japan</a>
+                        <a href="https://music.apple.com/jp/artist/1699342983" target="_blank" class="hover:underline">Apple Music</a>
+                        <a href="https://open.spotify.com/artist/2xPheCv27oLtbyjb7TsXd0" target="_blank" class="hover:underline">Spotify</a>
+                        <a href="http://music.163.com/artist?id=36284273" target="_blank" class="hover:underline">网易云音乐</a>
                     </div>
                 </div>
             </div>
@@ -186,21 +233,21 @@
     </main>
 
     <!-- 7. Footer -->
-    <footer class="text-center py-8">
-        <p class="text-gray-500 text-sm scroll-animate">© 2025 0M_P ALL RIGHTS RESERVED.</p>
+    <footer class="text-center py-8 text-slate-500 text-sm">
+        <p>© 2025 0M_P ALL RIGHTS RESERVED.</p>
     </footer>
 
     <script>
         // JavaScript for scroll animations
         document.addEventListener('DOMContentLoaded', () => {
-            const animatedElements = document.querySelectorAll('.scroll-animate, .section-title');
+            const animatedElements = document.querySelectorAll('.scroll-animate');
 
             if ('IntersectionObserver' in window) {
                 const observer = new IntersectionObserver((entries, observer) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             entry.target.classList.add('is-visible');
-                            observer.unobserve(entry.target); // Animate only once
+                            observer.unobserve(entry.target);
                         }
                     });
                 }, {
